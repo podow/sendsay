@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import FormGroup from "./components/FormGroup";
+import Button from "./components/Button";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <form style={{
+            width: '80%',
+            flex: '0 0 80%'
+        }}>
+          <FormGroup label="Тема письма" placeholder="Тест" id="subject" />
+          <FormGroup label="Имя отправителя" placeholder="Иван" id="nameFrom" />
+          <FormGroup label="E-mail отправителя" placeholder="example@web.com" id="emailFrom" />
+          <FormGroup label="Имя получателя" placeholder="Василий" id="nameTo" />
+          <FormGroup label="E-mail получателя" placeholder="test@web.com" id="emailTo" />
+          <FormGroup label="Сообщение" type="textarea" placeholder="Привет! Как дела?" id="message" />
+          <FormGroup label="Прикрепленные файлы" type="file" id="file" />
+          <Button>Отправить</Button>
+        </form>
     </div>
   );
 }

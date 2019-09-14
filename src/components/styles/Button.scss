@@ -1,0 +1,15 @@
+.button {
+  padding: .8rem;
+  font-size: .8rem;
+  border-radius: .4rem;
+  cursor: pointer;
+  box-shadow: .2rem .8rem 1.6rem darken(#5e35b1, 5%);
+  background-color: #9B2BAB;
+  color: #ffffff;
+  border: 0;
+  outline: none;
+  transition: background-color .5s;
+  &:hover {
+    background-color: darken(#9B2BAB, 5%);
+  }
+}

@@ -1,0 +1,25 @@
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+  &__input {
+    margin-top: .4rem;
+    margin-bottom: .4rem;
+    border-radius: .4rem;
+    border: 0;
+    outline: none;
+    padding: .8rem;
+    box-shadow: .2rem .8rem 1.6rem darken(#5e35b1, 5%);
+    font-size: .8rem;
+  }
+  &__textarea {
+    resize: none;
+  }
+  &__error-message {
+    color: #f64747;
+    display: none;
+    &-shown {
+      display: block;
+    }
+  }
+}
