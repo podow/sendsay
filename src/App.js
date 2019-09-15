@@ -1,29 +1,136 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
+
+import {validate, createControl} from './utils/form';
+
 import FormGroup from "./components/FormGroup";
 import Button from "./components/Button";
 import DragAndDrop from "./components/DragAndDrop";
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isFormValid: false,
+      formControls: {
+        subject: createControl({
+          label: 'Тема письма',
+          placeholder: 'Тест'
+        }, {required: true}),
+        nameFrom: createControl({
+          label: 'Имя отправителя',
+          placeholder: 'Иван'
+        }, {required: true}),
+        emailFrom: createControl({
+          label: 'E-mail отправителя',
+          placeholder: 'example@web.com',
+          errorMessage: 'Введите корректный e-mail адрес.'
+        }, {required: true, email: true}),
+        nameTo: createControl({
+          label: 'Имя получателя',
+          placeholder: 'Василий'
+        }, {required: true}),
+        emailTo: createControl({
+          label: 'E-mail получателя',
+          placeholder: 'test@web.com',
+          errorMessage: 'Введите корректный e-mail адрес.'
+        }, {required: true, email: true}),
+        message: createControl({
+          type: 'textarea',
+          label: 'Сообщение',
+          placeholder: 'Привет! Как дела?',
+          minLength: 15,
+          maxLength: 150
+        }, {required: true}),
+        files: createControl({
+          type: 'file',
+          label: 'Прикрепленные файлы',
+          renderCallback: element => (
+            <DragAndDrop handleDrop={this.handleDrop}>
+              {element}
+            </DragAndDrop>
+          )
+        })
+      }
+    };
+  }
+
+  handleDrop = files => {
+    console.log(files);
+  };
+
+  onChangeHandler(event, controlName) {
+    const formControls = {...this.state.formControls};
+    const control = {...formControls[controlName]};
+
+    control.value = event.target.value;
+    control.touched = true;
+    control.valid = validate(control.value, control.validation);
+
+    formControls[controlName] = control;
+
+    let isFormValid = true;
+
+    Object.keys(formControls).forEach(name => {
+      isFormValid = formControls[name].valid && isFormValid
+    });
+
+    this.setState({
+      formControls,
+      isFormValid
+    })
+  };
+
+  renderControls() {
+    return Object.keys(this.state.formControls).map((controlName, index) => {
+      const control = this.state.formControls[controlName];
+
+      return (
+        <FormGroup
+          key={controlName + index}
+          id={controlName}
+          placeholder={control.placeholder}
+          label={control.label}
+          value={control.value}
+          valid={control.valid}
+          shouldValidate={!!control.validation}
+          touched={control.touched}
+          type={control.type}
+          errorMessage={control.errorMessage}
+          onChange={event => this.onChangeHandler(event, controlName)}
+          renderCallback={control.renderCallback}
+        />
+      )
+    })
+  }
+
+  submitHandler = event => {
+    event.preventDefault();
+
+    let data = {};
+
+    Object.keys(this.state.formControls).map(controlName => {
+      const control = this.state.formControls[controlName];
+      return data[controlName] = control.value;
+    });
+
+    console.log(data);
+  };
+
+  render() {
+    return (
+      <div className="App">
         <form style={{
-            width: '80%',
-            flex: '0 0 80%'
+          width: '80%',
+          flex: '0 0 80%'
         }}>
-          <FormGroup label="Тема письма" placeholder="Тест" id="subject" />
-          <FormGroup label="Имя отправителя" placeholder="Иван" id="nameFrom" />
-          <FormGroup label="E-mail отправителя" placeholder="example@web.com" id="emailFrom" />
-          <FormGroup label="Имя получателя" placeholder="Василий" id="nameTo" />
-          <FormGroup label="E-mail получателя" placeholder="test@web.com" id="emailTo" />
-          <FormGroup label="Сообщение" type="textarea" placeholder="Привет! Как дела?" id="message" />
-          <DragAndDrop handleDrop={files => console.log(files)}>
-            <FormGroup label="Прикрепленные файлы" type="file" id="file" />
-          </DragAndDrop>
-          <Button>Отправить</Button>
+          {this.renderControls()}
+          <Button type="submit" onClick={this.submitHandler}>Отправить</Button>
         </form>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;
