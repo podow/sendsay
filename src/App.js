@@ -45,19 +45,34 @@ class App extends Component {
         }, {required: true}),
         files: createControl({
           type: 'file',
-          label: 'Прикрепленные файлы',
-          renderCallback: element => (
-            <DragAndDrop handleDrop={this.handleDrop}>
-              {element}
-            </DragAndDrop>
-          )
+          label: 'Выберите файл или перетащите мышкой',
+          renderCallback: element => {
+            return(
+              <DragAndDrop handleDrop={this.handleDrop}>
+                {element}
+                <div id="file-preview" />
+                {/*{this.state.files.map(file => (*/}
+                {/*  <span>{file.name}</span>*/}
+                {/*))}*/}
+              </DragAndDrop>
+            )
+          },
+          onChange: event => {
+            this.handleFileUpload(event.target.files)
+          }
         })
-      }
+      },
+      files: []
     };
   }
 
-  handleDrop = files => {
+  handleFileUpload = files => {
     console.log(files);
+    this.setState({ files: files });
+  };
+
+  handleDrop = files => {
+    this.handleFileUpload(files)
   };
 
   onChangeHandler(event, controlName) {
@@ -98,7 +113,7 @@ class App extends Component {
           touched={control.touched}
           type={control.type}
           errorMessage={control.errorMessage}
-          onChange={event => this.onChangeHandler(event, controlName)}
+          onChange={event => control.onChange(event) || this.onChangeHandler(event, controlName)}
           renderCallback={control.renderCallback}
         />
       )

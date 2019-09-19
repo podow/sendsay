@@ -1,7 +1,18 @@
-.formGroup {
+.form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 1.2rem;
+  &__label {
+    &-select {
+      cursor: pointer;
+      font-size: 1.2em;
+      font-weight: 600;
+      border: .1rem dashed #fff;
+      padding: 1.6rem .8rem;
+      border-radius: .4rem;
+      text-align: center;
+    }
+  }
   &__input {
     margin-top: .4rem;
     margin-bottom: .4rem;
@@ -12,6 +23,14 @@
     box-shadow: .2rem .8rem 1.6rem darken(#5e35b1, 5%);
     font-size: .8rem;
     width: 100%;
+    &[type=file] {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
   }
   &__textarea {
     resize: none;

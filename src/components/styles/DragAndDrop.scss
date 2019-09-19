@@ -1,8 +1,8 @@
-.dragAndDrop {
+.drag-and-drop {
   position: relative;
   &__overlay {
-    border: .2rem dashed #777;
-    background-color: rgba(255, 255, 255, .8);
+    border: .1rem dashed #777;
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,8 +12,10 @@
     left: 0;
     right: 0;
     z-index: 9999;
+    border-radius: .4rem;
     &__text {
-      color: grey;
+      color: #5e35b1;
+      font-weight: 600;
       font-size: 1.6rem;
     }
   }

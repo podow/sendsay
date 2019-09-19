@@ -86,10 +86,10 @@ class DragAndDrop extends Component {
 
   render() {
     return (
-      <div ref={this.dropRef} className="dragAndDrop">
+      <div ref={this.dropRef} className="drag-and-drop">
         {this.state.dragging && (
-          <div className="dragAndDrop__overlay">
-            <div className="dragAndDrop__overlay__text">
+          <div className="drag-and-drop__overlay">
+            <div className="drag-and-drop__overlay__text">
               <span>{this.props.dropText}</span>
             </div>
           </div>

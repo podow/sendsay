@@ -5,19 +5,19 @@ import './styles/FormGroup.scss';
 const isInvalid = ({valid, touched, shouldValidate}) => !valid && shouldValidate && touched;
 
 const FormGroup = ({
-    id, label,
-    errorMessage, value,
-    placeholder, type,
-    onChange, valid,
-    touched, shouldValidate,
-    renderCallback
-  }) => {
+   id, label,
+   errorMessage, value,
+   placeholder, type,
+   onChange, valid,
+   touched, shouldValidate,
+   renderCallback
+ }) => {
   const input = type === 'textarea'
     ? (
       <textarea
         id={id}
         placeholder={placeholder}
-        className="formGroup__input formGroup__textarea"
+        className="form-group__input form-group__textarea"
         rows="10"
         onChange={onChange}
         value={value}
@@ -25,7 +25,7 @@ const FormGroup = ({
     ) : (
       <input
         id={id}
-        className="formGroup__input"
+        className="form-group__input"
         type={type}
         value={value}
         placeholder={placeholder}
@@ -33,13 +33,33 @@ const FormGroup = ({
       />
     );
 
-  return (
-    <div className="formGroup">
-      {(label && id) && <label className="formGroup__label" htmlFor={id}>{label}</label>}
-      {renderCallback ? renderCallback(input) : input}
-      {isInvalid({valid, touched, shouldValidate}) && <span className="formGroup__error-message">{errorMessage}</span>}
-    </div>
-  );
+  return renderCallback
+    ? renderCallback(
+      <div className="form-group">
+        {(label && id) && (
+          <label
+            className={`form-group__label ${type === 'file' && 'form-group__label-select'}`}
+            htmlFor={id}
+          >{label}</label>
+        )}
+        {input}
+        {isInvalid({valid, touched, shouldValidate}) &&
+        <span className="form-group__error-message">{errorMessage}</span>}
+      </div>
+    )
+    : (
+      <div className="form-group">
+        {(label && id) && (
+          <label
+            className={`form-group__label ${type === 'file' && 'form-group__label_select'}`}
+            htmlFor={id}
+          >{label}</label>
+        )}
+        {input}
+        {isInvalid({valid, touched, shouldValidate}) &&
+        <span className="form-group__error-message">{errorMessage}</span>}
+      </div>
+    );
 };
 
 FormGroup.propTypes = {
