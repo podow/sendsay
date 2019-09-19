@@ -10,7 +10,8 @@ const FormGroup = ({
    placeholder, type,
    onChange, valid,
    touched, shouldValidate,
-   renderCallback
+   renderCallback,
+  ...props
  }) => {
   const input = type === 'textarea'
     ? (
@@ -21,6 +22,7 @@ const FormGroup = ({
         rows="10"
         onChange={onChange}
         value={value}
+        { ...props }
       />
     ) : (
       <input
@@ -30,6 +32,7 @@ const FormGroup = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        { ...props }
       />
     );
 

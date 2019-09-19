@@ -2,7 +2,33 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './styles/DragAndDrop.scss'
 
+/**
+ * File preview component
+ */
+const FilePreview = ({files}) => (
+  <div className="file-preview">
+    {Array.prototype.map.call(files, file => {
+      return (
+        <div
+          key={file.size + file.lastModified}
+          className="file-preview__item"
+        >
+          <div className="file-preview__item__preview">
+            <img src={file.preview} alt={file.name} title={file.alt} />
+          </div>
+          <span className="file-preview__item__name">{`${file.name.slice(0, 17)}...`}</span>
+        </div>
+      )
+    })}
+  </div>
+);
+
+/**
+ * D&D component
+ */
 class DragAndDrop extends Component {
+  static FilePreview = FilePreview;
+
   static propTypes = {
     handleDrop: PropTypes.func.isRequired,
     dropText: PropTypes.oneOfType([
@@ -100,4 +126,5 @@ class DragAndDrop extends Component {
   }
 }
 
+export {FilePreview};
 export default DragAndDrop;

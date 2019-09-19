@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import './App.css';
 
 import {validate, createControl} from './utils/form';
+import {bytesToMB} from './utils/converter';
 
 import FormGroup from "./components/FormGroup";
 import Button from "./components/Button";
-import DragAndDrop from "./components/DragAndDrop";
+import DragAndDrop, {FilePreview} from "./components/DragAndDrop";
 
 class App extends Component {
   constructor(props) {
@@ -46,15 +47,15 @@ class App extends Component {
         files: createControl({
           type: 'file',
           label: 'Выберите файл или перетащите мышкой',
+          multiple: true,
           renderCallback: element => {
-            return(
-              <DragAndDrop handleDrop={this.handleDrop}>
-                {element}
-                <div id="file-preview" />
-                {/*{this.state.files.map(file => (*/}
-                {/*  <span>{file.name}</span>*/}
-                {/*))}*/}
-              </DragAndDrop>
+            return (
+              <>
+                <DragAndDrop handleDrop={this.handleDrop}>
+                  {element}
+                </DragAndDrop>
+                {this.state.files && this.state.files.length > 0 && <FilePreview files={this.state.files}/>}
+              </>
             )
           },
           onChange: event => {
@@ -67,8 +68,11 @@ class App extends Component {
   }
 
   handleFileUpload = files => {
-    console.log(files);
-    this.setState({ files: files });
+    const filesArr = [...files];
+    for (let file of filesArr) {
+      file.preview = URL.createObjectURL(file);
+    }
+    this.setState({files: [...this.state.files, ...filesArr]});
   };
 
   handleDrop = files => {
@@ -113,8 +117,9 @@ class App extends Component {
           touched={control.touched}
           type={control.type}
           errorMessage={control.errorMessage}
-          onChange={event => control.onChange(event) || this.onChangeHandler(event, controlName)}
+          onChange={event => control.onChange ? control.onChange(event) : this.onChangeHandler(event, controlName)}
           renderCallback={control.renderCallback}
+          {...control}
         />
       )
     })
@@ -129,6 +134,8 @@ class App extends Component {
       const control = this.state.formControls[controlName];
       return data[controlName] = control.value;
     });
+
+    data.files = this.state.files || [];
 
     console.log(data);
   };
