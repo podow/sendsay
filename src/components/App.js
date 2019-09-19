@@ -6,6 +6,7 @@ import {validate, createControl} from '../utils/form';
 import FormGroup from './FormGroup';
 import Button from './Button';
 import DragAndDrop, {FilePreview} from './DragAndDrop';
+import {bytesToMB} from "../utils/converter";
 
 class App extends Component {
   constructor(props) {
@@ -67,11 +68,16 @@ class App extends Component {
   }
 
   handleFileUpload = files => {
-    const filesArr = [...files];
-    for (let file of filesArr) {
+    for (let file of files) {
+      if (bytesToMB(file.size) > 5) {
+        alert('large file!');
+        return false;
+      }
+
       file.preview = URL.createObjectURL(file);
     }
-    this.setState({files: [...this.state.files, ...filesArr]});
+
+    this.setState({files: [...this.state.files, ...files]});
   };
 
   handleDrop = files => {
@@ -134,7 +140,27 @@ class App extends Component {
       return data[controlName] = control.value;
     });
 
-    data.files = this.state.files || [];
+    data.files = [];
+
+    if (this.state.files.length > 0) {
+      for (let file of this.state.files) {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        let newFile = {
+          name: file.name,
+          encoding: 'base64'
+        };
+
+
+        reader.addEventListener('loadend', () => {
+          newFile.content = reader.result;
+        });
+
+        data.files.push(newFile);
+      }
+    }
 
     console.log(data);
   };
