@@ -46,7 +46,7 @@ class App extends Component {
         }, {required: true}),
         files: createControl({
           type: 'file',
-          label: 'Выберите файл или перетащите мышкой',
+          label: 'Прикрепить файл',
           multiple: true,
           renderCallback: element => {
             return (
@@ -169,6 +169,7 @@ class App extends Component {
     return (
       <div className="App">
         <form className="form">
+          <h2 className="form__title">Отправлялка сообщений</h2>
           {this.renderControls()}
           <Button type="submit" onClick={this.submitHandler}>Отправить</Button>
         </form>
