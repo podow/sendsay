@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import './styles/App.scss';
 
-import {validate, createControl} from './utils/form';
-import {bytesToMB} from './utils/converter';
+import {validate, createControl} from '../utils/form';
 
-import FormGroup from "./components/FormGroup";
-import Button from "./components/Button";
-import DragAndDrop, {FilePreview} from "./components/DragAndDrop";
+import FormGroup from './FormGroup';
+import Button from './Button';
+import DragAndDrop, {FilePreview} from './DragAndDrop';
 
 class App extends Component {
   constructor(props) {
