@@ -8,15 +8,15 @@ import './styles/DragAndDrop.scss'
 const FilePreview = ({files}) => (
   <div className="file-preview">
     {Array.prototype.map.call(files, file => {
+      const fileNameArr = file.name.split('.');
+      const displayName = `${fileNameArr[0].slice(0, 16)}...${fileNameArr[1]}`;
       return (
         <div
           key={file.size + file.lastModified}
           className="file-preview__item"
         >
-          <div className="file-preview__item__preview">
-            <img src={file.preview} alt={file.name} title={file.alt} />
-          </div>
-          <span className="file-preview__item__name">{`${file.name.slice(0, 17)}...`}</span>
+          <span className="file-preview__item__name">{displayName}</span>
+          <button className="file-preview__remove">Удалить</button>
         </div>
       )
     })}

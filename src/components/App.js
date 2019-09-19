@@ -51,10 +51,10 @@ class App extends Component {
           renderCallback: element => {
             return (
               <>
+                {this.state.files && this.state.files.length > 0 && <FilePreview files={this.state.files}/>}
                 <DragAndDrop handleDrop={this.handleDrop}>
                   {element}
                 </DragAndDrop>
-                {this.state.files && this.state.files.length > 0 && <FilePreview files={this.state.files}/>}
               </>
             )
           },
@@ -73,8 +73,6 @@ class App extends Component {
         alert('large file!');
         return false;
       }
-
-      file.preview = URL.createObjectURL(file);
     }
 
     this.setState({files: [...this.state.files, ...files]});
