@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './App.css';
+import './styles/App.scss';
 
 import {validate, createControl} from './utils/form';
 import {bytesToMB} from './utils/converter';
@@ -143,10 +143,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <form style={{
-          width: '80%',
-          flex: '0 0 80%'
-        }}>
+        <form className="form">
           {this.renderControls()}
           <Button type="submit" onClick={this.submitHandler}>Отправить</Button>
         </form>

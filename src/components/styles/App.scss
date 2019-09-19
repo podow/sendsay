@@ -8,3 +8,15 @@
   color: #ffffff;
   padding: 1.6rem 0;
 }
+
+.form {
+  width: 80%;
+  flex-basis: 80%;
+}
+
+@media screen and (min-width: 960px){
+  .form {
+    width: 50%;
+    flex-basis: 50%;
+  }
+}
